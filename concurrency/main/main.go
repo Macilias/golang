@@ -225,8 +225,9 @@ func channelWithSelect() {
 
 func defaultSelection() {
 	fmt.Println("\ndefaultSelection:")
+	// QUESTION: is "After -vs- Tick" only syntactical sugar here?
+	// RESULT: not really, After is once, Tick is frequently
 	tick := time.Tick(100 * time.Millisecond)
-	// TODO is after only syntactical sugar here?
 	boom := time.After(500 * time.Millisecond)
 	for {
 		select {
