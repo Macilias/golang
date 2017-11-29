@@ -13,6 +13,11 @@ func main() {
 	rangeAndClose()
 	channelWithSelect()
 	defaultSelection()
+	// Problem Cases:
+	//deadlockOnSendToNil()
+	//deadlockOnReadFromNil()
+	//panicOnWriteFromClosed()
+	//zeroOnReadFromClosed()
 }
 
 /*
@@ -240,5 +245,43 @@ func defaultSelection() {
 			fmt.Println("    .")
 			time.Sleep(50 * time.Millisecond)
 		}
+	}
+}
+
+// Problem Cases
+
+func deadlockOnSendToNil() {
+	var c chan string
+	c <- "let's get started" // deadlock
+}
+
+func deadlockOnReadFromNil() {
+	var c chan string
+	fmt.Println(<-c) // deadlock
+}
+
+func panicOnWriteFromClosed() {
+	var c = make(chan int, 100)
+	for i := 0; i < 10; i++ {
+		go func() {
+			for j := 0; j < 10; j++ {
+				c <- j
+			}
+			close(c)
+		}()
+	}
+	for i := range c {
+		fmt.Println(i)
+	}
+}
+
+func zeroOnReadFromClosed() {
+	c := make(chan int, 3)
+	c <- 1
+	c <- 2
+	c <- 3
+	close(c)
+	for i := 0; i < 4; i++ {
+		fmt.Printf("%d ", <-c) // prints 1 2 3 0
 	}
 }
