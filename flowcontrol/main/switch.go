@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"runtime"
+	"time"
 )
 
 // Switch
@@ -23,5 +24,17 @@ func switchTest() {
 		// freebsd, openbsd,
 		// plan9, windows...
 		fmt.Printf("%s.", os)
+	}
+}
+
+func switchWithNoConditionTest() {
+	t := time.Now()
+	switch {
+	case t.Hour() < 12:
+		fmt.Println("Good morning!")
+	case t.Hour() < 17:
+		fmt.Println("Good afternoon.")
+	default:
+		fmt.Println("Good evening.")
 	}
 }

@@ -5,6 +5,7 @@ func main() {
 	whileStyle()
 	ifFlavours()
 	switchTest()
+	switchWithNoConditionTest()
 	deferTest()
 	panicTest()
 }
