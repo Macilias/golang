@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 )
 
@@ -17,6 +18,7 @@ func main() {
 	appendToSlice()
 	growingSlices()
 	filteringSlices()
+	copySliceToHelpGarbageCollection()
 
 }
 func arrays() {
@@ -219,7 +221,30 @@ func filteringSlices() {
 	printSlice(b, "after filter")
 }
 
+/*
+	A function like that makes sense if you don´t want to hold a pointer to a huge array.
+	In such case its better to extract the content and return a slice of the copy with
+	extracted content.
+*/
+func copySliceToHelpGarbageCollection() {
+	fmt.Println("\ncopySliceToHelpGarbageCollection():")
+	s := []byte{'1', 'H', 'W', '2', '3', 'P'}
+	printByteSlice(s)
+	b := CopyDigits(s)
+	printByteSlice(b)
+}
+
+// >>>>>>>>>>>>>>>>>
 // Helper Functions:
+// >>>>>>>>>>>>>>>>>
+
+func CopyDigits(s []byte) []byte {
+	var digitRegexp = regexp.MustCompile("[0-9]+")
+	b := digitRegexp.Find(s)
+	c := make([]byte, len(b))
+	copy(c, b)
+	return c
+}
 
 // Filter returns a new slice holding only
 // the elements of s that satisfy fn()
