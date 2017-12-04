@@ -23,7 +23,7 @@ func main() {
 }
 func arrays() {
 	fmt.Println("\narrays():")
-	// Arrays
+	// arrays
 	var ar [2]string
 	ar[0] = "Hello"
 	ar[1] = "World"
